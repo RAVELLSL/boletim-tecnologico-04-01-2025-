@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boletim Tecnológico</title>
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f7f7f7;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(135deg, #333, #000);
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 36px;
+      margin: 0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .container {
+      width: 90%;
+      margin: auto;
+      padding: 20px 0;
+    }
+
+    .edition-info {
+      text-align: center;
+      font-size: 16px;
+      color: #666;
+      margin: 15px 0;
+    }
+
+    .section-title {
+      color: #333;
+      font-size: 28px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #333;
+      padding-bottom: 5px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    /* Configuração das seções para centralizar os cards */
+    .main-section, .innovation-section, .deu-ruim-section, .news-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center; /* Centraliza os cards horizontalmente */
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 300px; /* Define uma largura fixa para os cards */
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 30px;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    /* Estilos para os modais */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 60%;
+      height: 80%;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .modal-content img {
+      width: 80%;
+      height: auto;
+      margin: 20px auto;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .modal-content p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #555;
+      text-align: justify;
+      margin-top: 20px;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      color: #333;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    /* Estilos responsivos */
+    @media (max-width: 1024px) {
+      .modal-content {
+        width: 80%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .modal-content {
+        width: 80%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .main-section, .innovation-section, .deu-ruim-section, .news-section {
+        flex-direction: column;
+        align-items: center; /* Centraliza os cards em telas pequenas */
+      }
+
+      .card h2 {
+        font-size: 16px;
+      }
+
+      .card img {
+        height: auto;
+        margin-bottom: 10px;
+      }
+
+      .section-title {
+        font-size: 24px;
+      }
+
+      header h1 {
+        font-size: 28px;
+      }
+
+      .modal-content {
+        width: 95%;
+        height: 90%;
+        padding: 15px;
+      }
+
+      .modal-content h2 {
+        font-size: 20px;
+      }
+
+      .modal-content p {
+        font-size: 16px;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Boletim Tecnológico</h1>
+  </header>
+
+  <div class="edition-info">
+    <p>Edição de 04/01/2025</p>
+  </div>
+
+  <!-- Seção: Inteligência Artificial -->
+  <h2 class="section-title">Inteligência Artificial</h2>
+  <div class="main-section">
+    <!-- Card 1 -->
+    <div class="card" id="card1">
+      <img src="https://img.odcdn.com.br/wp-content/uploads/2024/11/inteligencia-artificial-receita-scaled-e1733838349992-1920x1080.webp" 
+           alt="A Economia da intenção é a próxima fronteira da IA">
+      <h2>A Economia da intenção é a próxima fronteira da IA</h2>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card" id="card2">
+      <img src="https://cdn.oantagonista.com/uploads/2024/12/A-2025-AI-future-world-depicted-in-a-graceful-and-elegant-style-with-strong-hard-light-refined-features-and-direct-harsh-shadows.jpg" 
+           alt="O ano da inteligência artificial e das máquinas quânticas">
+      <h2>O ano da inteligência artificial e das máquinas quânticas</h2>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card" id="card3">
+      <img src="https://img.odcdn.com.br/wp-content/uploads/2024/11/inteligencia-artificial-1920x1080.webp" alt="Imagem IA Card 3">
+      <h2>Erros da IA estão possibilitando novas descobertas científicas</h2>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card" id="card4">
+      <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/ia-religiao-1-1-1920x1080.webp" alt="Imagem IA Card 4">
+      <h2>IA é utilizada para criar sermões religiosos e gera polêmica</h2>
+    </div>
+  </div>
+
+  <!-- Seção: Inovação Tecnológica -->
+  <h2 class="section-title">Inovação Tecnológica</h2>
+  <div class="innovation-section">
+    <!-- Card 5 -->
+    <div class="card" id="card5">
+      <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/internet-6g-1920x1080.webp" alt="Imagem Inovação Card 5">
+      <h2>internet 6G entre os avanços tecnológicos que podem marcar 2025</h2>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="card" id="card6">
+      <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/robo-john-hopkins-1920x1080.webp" alt="Imagem Inovação Card 6">
+      <h2>Robôs aprendem a fazer cirurgias assistindo vídeos</h2>
+    </div>
+
+    <!-- Card 7 -->
+    <div class="card" id="card7">
+      <img src="https://img.odcdn.com.br/wp-content/uploads/2024/11/neuroplasticidade-1920x1080.webp" alt="Imagem Inovação Card 7">
+      <h2>Experimento quer expandir consciência humana com computador quântico</h2>
+    </div>
+  </div>
+
+  <!-- Seção: Deu Ruim -->
+  <h2 class="section-title">Deu Ruim</h2>
+  <div class="deu-ruim-section">
+    <!-- Card 8 -->
+    <div class="card" id="card8">
+      <img src="https://img.odcdn.com.br/wp-content/uploads/2024/06/vision-pro-1024x640.jpg" alt="Imagem Deu Ruim Card 8">
+      <h2>Apple decide encerrar produção do Vision Pro</h2>
+    </div>
+
+    <!-- Card 9 -->
+    <div class="card" id="card9">
+      <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/instagram-IA-1920x1080.webp" alt="Imagem Deu Ruim Card 9">
+      <h2>Meta: em breve, Instagram estará cheio de perfis de IA</h2>
+    </div>
+
+    <!-- Card 10 -->
+    <div class="card" id="card10">
+      <img src="https://img.odcdn.com.br/wp-content/uploads/2024/07/shutterstock_2275471993-1920x1080.webp" alt="Imagem Deu Ruim Card 10">
+      <h2>Tesla em crise? Vendas desaceleram pela primeira vez</h2>
+    </div>
+  </div>
+
+  <!-- Seção: Notícias Variadas -->
+  <h2 class="section-title">Notícias Variadas</h2>
+  <div class="news-section">
+    <!-- Card 11 -->
+    <div class="card" id="card11">
+      <img src="https://img.odcdn.com.br/wp-content/uploads/2024/11/pai-segurando-bebe-1920x1080.webp" alt="Imagem Notícias Card 11">
+      <h2>2025 marca o nascimento de uma nova geração: os bebês beta</h2>
+    </div>
+
+    <!-- Card 12 -->
+    <div class="card" id="card12">
+      <img src="https://itforum.com.br/wp-content/uploads/2024/05/inteligencia-artificial-ia.jpg" alt="Imagem Notícias Card 12">
+      <h2>5 inovações de IA que vão redefinir o mercado em 2025</h2>
+    </div>
+
+    <!-- Card 13 -->
+    <div class="card" id="card13">
+      <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/stephen-hawking-1-1920x1080.webp" alt="Imagem Notícias Card 13">
+      <h2>O que Stephen Hawking previu para 2025?</h2>
+    </div>
+  </div>
+
+  <!-- ========================== 
+       MÓDULOS (MODAIS) 
+       ========================== -->
+
+  <!-- Modal 1 -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Inteligência Artificial e a Economia da Intenção</h2>
+        <img src="https://img.odcdn.com.br/wp-content/uploads/2024/11/inteligencia-artificial-receita-scaled-e1733838349992-1920x1080.webp" alt="Imagem representativa da economia da intenção">
+        <p>Especialistas da Universidade de Cambridge alertam para o surgimento da “economia da intenção”, uma nova abordagem que transforma motivações humanas em um ativo comercial. Assistentes de inteligência artificial (IA) poderiam prever escolhas dos usuários, influenciá-las em tempo real e vender essas “intenções” a empresas antes que as pessoas estejam conscientes de suas próprias decisões.</p>
+        
+        <strong>Nova Fronteira da IA: Economia da Intenção</strong><br>
+        <p>De acordo com o dr. Jonnie Penn, essa evolução, que sucede a economia da atenção, pode influenciar profundamente eleições, liberdade de imprensa e concorrência no mercado.</p>
+        
+        <strong>Economia da Atenção: O Que é e Como Funciona?</strong><br>
+        <p>Antes de entender a economia da intenção, é essencial compreender a economia da atenção. Este conceito define o uso de estratégias para capturar e reter a atenção do público, transformando-a em uma valiosa mercadoria no ambiente digital.</p>
+        <p>Plataformas como redes sociais, mecanismos de busca e serviços de streaming competem pela atenção dos usuários, utilizando algoritmos que priorizam conteúdos atraentes ou viciantes. Isso alimenta modelos de negócios baseados em publicidade, onde mais tempo de uso significa maior receita.</p>
+        <p>Embora lucrativa, a economia da atenção tem sido criticada por promover vícios digitais, polarização e impacto na saúde mental. Agora, a economia da intenção propõe um modelo ainda mais intrusivo.</p>
+        
+        <strong>Como Funciona a Economia da Intenção?</strong><br>
+        <p>A economia da intenção expande o conceito anterior, focando não apenas na atenção, mas na previsão e influência das decisões dos usuários. Assistentes virtuais e chatbots desempenham um papel crucial, analisando padrões de comportamento para antecipar escolhas futuras.</p>
+        <p>Dois aspectos críticos incluem:</p>
+        <p>• <strong>Personalização Avançada:</strong> Sistemas antropomórficos ajustam interações com base em dados individuais, ganhando a confiança dos usuários.</p>
+        <p>• <strong>Manipulação Escalável:</strong> Tecnologias capazes de imitar comportamentos humanos podem influenciar decisões em massa, levantando questões éticas sobre privacidade e consentimento.</p>
+        
+        <strong>Riscos e Controvérsias</strong><br>
+        <p>O dr. Yaqub Chaudhary destaca que as tecnologias utilizadas na economia da intenção coletam dados mais íntimos do que interações online convencionais. Grandes Modelos de Linguagem (LLMs) personalizam diálogos para persuadir ações específicas, como compras ou adesões a serviços, maximizando os lucros de empresas anunciantes.</p>
+        <p>Empresas como Microsoft, Meta e OpenAI já investem em ferramentas que exploram esse mercado emergente. Porém, sem regulamentações adequadas, esse modelo pode comprometer pilares como privacidade e eleições justas.</p>
+        
+        <strong>O Que Está em Jogo?</strong><br>
+        <p>Especialistas pedem uma análise urgente dos impactos sociais e econômicos da economia da intenção para evitar problemas semelhantes aos causados pela economia da atenção. A adoção desenfreada dessas tecnologias pode transformar intenções humanas em mercadorias e influenciar sociedades de forma ampla e duradoura.</p>
+    </div>
+</div>
+
+
+  <!-- Modal 2 (exemplo de placeholder) -->
+
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>2024: O Ano da Inteligência Artificial e das Máquinas Quânticas</h2>
+        <img src="https://cdn.oantagonista.com/uploads/2024/12/A-2025-AI-future-world-depicted-in-a-graceful-and-elegant-style-with-strong-hard-light-refined-features-and-direct-harsh-shadows.jpg" alt="Imagem representativa do avanço da inteligência artificial e computação quântica">
+        
+        <p>Em 2024, a inteligência artificial (IA) atingiu novos patamares. Pesquisadores começaram a desvendar os segredos das “caixas-pretas” de grandes modelos de linguagem, como Gemini e ChatGPT. Esses sistemas mostraram sinais de ir além da simples reprodução de dados, sugerindo uma possível compreensão do que processam.</p>
+        
+        <p>Mesmo com essas conquistas, especialistas apontam uma possível desaceleração no desenvolvimento da IA. Ferramentas como chatbots continuam revolucionando setores como atendimento e criação de conteúdo, mas questões críticas, como segurança e privacidade, permanecem sem soluções definitivas.</p>
+        
+        <strong>Computação Quântica: Um Salto à Frente</strong><br>
+        <p>2024 também marcou avanços significativos na computação quântica. Pela primeira vez, pesquisadores comprovaram a eficácia de códigos de correção de erros essenciais, aproximando a tecnologia de sua aplicação prática.</p>
+        
+        <p>Um destaque foi o lançamento do chip quântico Willow pelo Google. Esse dispositivo é capaz de realizar cálculos que levariam bilhões de anos em computadores convencionais. Além disso, o Willow superou desafios como a redução de erros com a adição de novos qubits, consolidando a computação quântica como uma ferramenta indispensável para simulações moleculares, descoberta de medicamentos e avanços em energia limpa.</p>
+        
+        <strong>IA: Da Conversa ao Raciocínio Lógico</strong><br>
+        <p>Além de gerar texto, modelos avançados de IA, como o Gemini e o ChatGPT, demonstraram habilidades de raciocínio lógico e solução de problemas. Essas tecnologias começaram a ser integradas em sistemas médicos, industriais e educacionais, promovendo avanços em diversas áreas, incluindo pesquisas científicas e processos de otimização.</p>
+        
+        <p>Por outro lado, o rápido progresso da IA trouxe novos desafios. Questões éticas, preocupações com segurança e debates sobre privacidade continuam sendo tópicos centrais em discussões globais, indicando a necessidade de regulamentações responsáveis para acompanhar o desenvolvimento.</p>
+        
+        <strong>O Impacto Global e as Perspectivas para 2025</strong><br>
+        <p>As inovações em inteligência artificial e computação quântica de 2024 mostram um cenário de transformações profundas. Espera-se que essas tecnologias sejam cruciais na solução de desafios globais, como mudanças climáticas e crises de saúde.</p>
+        
+        <p>Com as aplicações práticas mais próximas de se concretizar, 2025 promete consolidar a ciência da computação como uma das principais forças transformadoras da sociedade, redefinindo áreas como saúde, energia e exploração espacial.</p>
+    </div>
+</div>
+
+  <!-- Modal 3 -->
+  <div id="modal3" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Inteligência Artificial e Descobertas Científicas</h2>
+        <img src="https://img.odcdn.com.br/wp-content/uploads/2024/11/inteligencia-artificial-1920x1080.webp" alt="Imagem representativa da inteligência artificial e descobertas científicas">
+        
+        <p>Embora a inteligência artificial (IA) seja conhecida por cometer erros – como a falsa afirmação do Bard que resultou em uma perda de US$ 100 bilhões no valor de mercado do Google – pesquisadores têm aproveitado essas falhas de forma criativa para impulsionar descobertas científicas.</p>
+        
+        <p>Áreas como rastreamento de câncer, desenvolvimento de medicamentos, dispositivos médicos e estudos climáticos têm se beneficiado das sugestões improváveis geradas pela IA.</p>
+        
+        <strong>Como os Erros da IA Aceleram a Ciência?</strong><br>
+        <p>O processo funciona de forma simples, mas inovadora:</p>
+        
+        <p>• <strong>Treinamento e Reorganização:</strong> Modelos generativos são treinados em temas específicos e reorganizam informações, gerando ideias que variam de erros sutis a propostas surreais.</p>
+        <p>• <strong>Exploração de Possibilidades:</strong> Em vez de descartar esses resultados, cientistas os analisam como pontos de partida para explorar novas soluções e testar sua viabilidade.</p>
+        
+        <p>Esse método – considerado um “método científico 2.0” – pode reduzir drasticamente o tempo de desenvolvimento de ideias, agilizando pesquisas que antes levavam anos para apenas dias ou horas.</p>
+        
+        <strong>Casos de Sucesso: Nobel e Dispositivos Médicos</strong><br>
+        <p>Entre os avanços impulsionados por “erros” da IA estão:</p>
+        
+        <p><strong>Prêmio Nobel de Química 2024:</strong><br>
+        David Baker, da Universidade de Washington, utilizou sugestões “absurdas” da IA para criar proteínas completamente novas, inexistentes na natureza. Sua pesquisa foi reconhecida pelo comitê do Nobel como uma conquista “quase impossível”.</p>
+        
+        <p><strong>Cateter Antibacteriano:</strong><br>
+        Um modelo de IA gerou milhares de designs de cateter, selecionando o mais eficaz. O dispositivo conta com paredes internas serrilhadas que impedem a fixação de bactérias, reduzindo drasticamente infecções urinárias. A solução, inovadora e não considerada anteriormente, está em processo de comercialização.</p>
+        
+        <strong>O Futuro da Ciência com IA</strong><br>
+        <p>Esses exemplos mostram que até mesmo os erros da inteligência artificial podem ser aproveitados como ferramentas para avanços significativos. Combinando criatividade humana e tecnologia, cientistas estão transformando o impossível em realidade, abrindo caminho para uma nova era de descobertas científicas.</p>
+    </div>
+</div>
+
+
+  <!-- Modal 4 -->
+  <div id="modal4" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>IA e Religião – Modernização ou Controvérsia?</h2>
+        <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/ia-religiao-1-1-1920x1080.webp" alt="Imagem representativa da interseção entre IA e religião">
+        
+        <p>A inteligência artificial (IA) começa a ser utilizada para escrever sermões religiosos, gerando debates intensos entre fiéis e líderes religiosos. Ferramentas como o Rabbi Bot, um chatbot desenvolvido por um rabino nos EUA, são capazes de realizar pregações e responder perguntas durante cultos.</p>
+        
+        <p>Ao mesmo tempo, tecnologias baseadas em IA já ajudam a traduzir sermões ao vivo para vários idiomas, ampliando o alcance internacional das mensagens religiosas. No entanto, a introdução dessa tecnologia no ambiente de fé provoca reações divergentes.</p>
+        
+        <strong>Divisão de Opiniões: Modernização ou Afirmação Religiosa?</strong><br>
+        <p>Entre os defensores do uso de IA para criar sermões, destaca-se o potencial de atrair jovens, uma geração mais conectada à tecnologia e que pode ver isso como um gesto de modernização.</p>
+        
+        <p>Por outro lado, críticos argumentam que o uso da IA para tarefas espirituais, como escrever pregações, pode violar princípios fundamentais da fé. Muitos líderes concordam com o uso de IA em atividades auxiliares, como marketing ou pesquisa, mas questionam sua legitimidade em questões espirituais, consideradas exclusivamente humanas.</p>
+        
+        <strong>Reflexões do Papa Francisco sobre a Tecnologia</strong><br>
+        <p>O Papa Francisco já discutiu o impacto da IA em diversos contextos religiosos, embora nunca tenha abordado diretamente o uso da tecnologia para escrever sermões. O pontífice destaca a importância da sabedoria como algo que “não pode ser buscado nas máquinas”.</p>
+        
+        <p>Além da Igreja Católica, projetos similares estão surgindo em outras tradições religiosas, como judaísmo, islamismo e budismo, ampliando o debate ético sobre o papel da tecnologia na espiritualidade.</p>
+        
+        <strong>O Futuro da Religião e a IA</strong><br>
+        <p>Com opiniões divididas, o uso da inteligência artificial na religião levanta questões profundas sobre a interseção entre fé e tecnologia. Seja como ferramenta de modernização ou motivo de controvérsia, o tema promete continuar gerando reflexões em diferentes comunidades religiosas ao redor do mundo.</p>
+    </div>
+</div>
+
+
+  <!-- Modal 5 -->
+  <div id="modal5" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>2025: Avanços Tecnológicos que Prometem Transformar a Sociedade</h2>
+        <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/internet-6g-1920x1080.webp" alt="Imagem representativa dos avanços tecnológicos de 2025">
+        
+        <p>A inteligência artificial (IA) continua a evoluir rapidamente, e 2025 pode marcar um grande salto em sua aplicação. Agentes inteligentes serão capazes de gerenciar tarefas complexas, como operar fábricas, escrever códigos ou até substituir aplicativos em smartphones.</p>
+        
+        <p>Um exemplo é o Optimus, robô humanoide da Tesla, que pode começar a operar internamente na empresa este ano, com comercialização prevista para 2026. Especialistas estimam que, até 2030, 80% das tarefas de gestão de projetos serão automatizadas por IA, aumentando eficiência e reduzindo custos.</p>
+        
+        <strong>Educação e Serviços Personalizados com IA</strong><br>
+        <p>A personalização de serviços será um destaque em 2025, principalmente na educação. Universidades já testam programas que adaptam currículos com base em habilidades, experiências e até condições emocionais dos alunos.</p>
+        
+        <p>Empresas também poderão usar IA para criar soluções sob medida, enquanto dispositivos menores, como smartphones, passarão a realizar tarefas mais complexas sem depender da nuvem, graças a modelos mais eficientes.</p>
+        
+        <strong>Computadores Quânticos Práticos</strong><br>
+        <p>A computação quântica está cada vez mais perto de se tornar uma ferramenta viável. Em 2025, o foco será na correção de erros, aumentando a confiabilidade desses sistemas. Essa evolução promete avanços em áreas como simulações científicas, logística e pesquisa de materiais.</p>
+        
+        <strong>Chegada da Internet 6G</strong><br>
+        <p>O 6G começará a tomar forma com o início de sua padronização global em 2025. Com velocidades ainda maiores e maior integração, essa tecnologia promete revolucionar comunicações, conectividade de dispositivos inteligentes e veículos autônomos, além de criar novas possibilidades para o metaverso.</p>
+        
+        <strong>Integração de Realidades Física e Virtual</strong><br>
+        <p>Realidades aumentada (AR), virtual (VR) e mista (MR) ganharão mais espaço em 2025. Equipamentos como o Vision Pro, da Apple, e os headsets da Meta devem se tornar ainda mais avançados, permitindo novas aplicações em entretenimento, treinamento e design.</p>
+        
+        <strong>Expansão da Tecnologia Blockchain</strong><br>
+        <p>O blockchain segue expandindo além das criptomoedas. Em 2025, espera-se sua aplicação em saúde, finanças e logística. A tecnologia promete maior transparência nas cadeias de suprimentos, proteção de dados de pacientes e inclusão financeira para populações desassistidas.</p>
+        
+        <strong>Veículos Autônomos Mais Avançados</strong><br>
+        <p>Os carros autônomos devem alcançar maior autonomia em 2025, aproximando-se do nível 5, em que não há necessidade de intervenção humana. Empresas como Tesla e Mercedes avançam no desenvolvimento de táxis e sistemas de direção autônoma, prometendo transformar o transporte urbano.</p>
+        
+        <p>Com inovações em IA, computação quântica, conectividade 6G e outras áreas, 2025 pode ser um marco para a tecnologia, moldando uma era em que máquinas e sistemas desempenham um papel ainda mais significativo no dia a dia das pessoas.</p>
+    </div>
+</div>
+
+
+  <!-- Modal 6 -->
+  <div id="modal6" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Robôs Aprendem a Fazer Cirurgias Assistindo Vídeos</h2>
+        <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/robo-john-hopkins-1920x1080.webp" alt="Imagem representativa de robôs realizando cirurgias">
+        
+        <p>Pesquisadores das universidades de John Hopkins e Stanford, nos EUA, desenvolveram robôs capazes de aprender a realizar cirurgias ao assistir vídeos de procedimentos reais. Inicialmente, as máquinas imitavam os movimentos dos médicos, mas com o tempo, passaram a corrigir seus próprios erros, como recuperar uma agulha que caiu.</p>
+        
+        <p>Esse trabalho foi apresentado na Conferência Robot Learning em Munique, Alemanha, e está em fase de revisão para publicação científica.</p>
+        
+        <strong>Cirurgias em Testes e o Futuro da Saúde</strong><br>
+        <p>Os robôs já foram testados realizando cirurgias em cadáveres de animais, uma etapa crucial antes de serem aplicados em pacientes humanos. A tecnologia é vista como uma possível solução para o déficit de cirurgiões nos Estados Unidos, que deve se agravar nos próximos anos.</p>
+        
+        <p>Embora caros, esses robôs prometem aprimorar a experiência de médicos em sala de cirurgia. Axel Krieger, professor de Stanford e supervisor do estudo, reforçou que o objetivo não é substituir cirurgiões, mas facilitar suas atividades e aumentar a precisão dos procedimentos.</p>
+        
+        <strong>Próximos Desafios e Potenciais Avanços</strong><br>
+        <p>• <strong>Aprimoramento em Situações Críticas:</strong> A equipe busca capacitar os robôs para lidar com cenários médicos comuns, como sangramentos inesperados.</p>
+        <p>• <strong>Interatividade:</strong> Os pesquisadores criaram um sistema para “conversar” com as máquinas como se fossem residentes em treinamento, oferecendo orientações durante as cirurgias.</p>
+        <p>• <strong>Redução do Treinamento Manual:</strong> O uso de vídeos demonstrou ser eficaz para diminuir a necessidade de ensinar cada movimento manualmente, acelerando o aprendizado.</p>
+        
+        <strong>Aprovando Robôs no Setor de Saúde</strong><br>
+        <p>Antes de entrarem em uso prático, os robôs precisarão passar por rigorosos testes de segurança e eficácia, além de aprovação da FDA, agência de saúde equivalente à Anvisa no Brasil.</p>
+        
+        <p>Em 2020, os EUA já registraram 876 mil cirurgias assistidas por robôs, mostrando o avanço dessa tecnologia. Com testes em andamento e melhorias contínuas, os robôs cirurgiões prometem revolucionar o setor de saúde, complementando o trabalho humano e enfrentando os desafios médicos do futuro.</p>
+    </div>
+</div>
+
+
+  <!-- Modal 7 -->
+  <div id="modal7" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Cientistas Propõem Usar Computador Quântico para Expandir Consciência Humana</h2>
+        <img src="https://img.odcdn.com.br/wp-content/uploads/2024/11/neuroplasticidade-1920x1080.webp" alt="Imagem representativa da conexão entre computadores quânticos e consciência humana">
+        
+        <p>A consciência humana ainda é um mistério para a ciência, mesmo após décadas de estudos. Embora seja possível, por exemplo, "desligá-la" temporariamente com anestésicos, o mecanismo por trás de sua existência segue sem explicação definitiva.</p>
+        
+        <p>Uma teoria curiosa foi apresentada em 1989 pelo físico Roger Penrose, que associou a consciência a fenômenos quânticos. Ele sugeriu que o emaranhamento quântico – um processo onde partículas estão interligadas de forma que uma influencia a outra – poderia ocorrer no cérebro.</p>
+        
+        <p>Embora essa ideia tenha enfrentado ceticismo na época, avanços científicos indicam que o ambiente cerebral pode, de fato, criar condições estáveis para esse tipo de interação.</p>
+        
+        <strong>A Experiência com Computadores Quânticos</strong><br>
+        <p>Inspirados nessa hipótese, pesquisadores agora buscam testar a relação entre consciência e processos quânticos, conectando um cérebro humano a um computador quântico.</p>
+        
+        <p>O experimento, descrito em um artigo publicado na revista Entropy, consiste em:</p>
+        <p>• Criar um elo físico entre o cérebro e o computador quântico.</p>
+        <p>• Estabelecer interações mediadas pelo emaranhamento.</p>
+        <p>• Observar se a união das duas entidades gera experiências humanas mais complexas.</p>
+        
+        <p>Em teoria, isso poderia expandir os limites da consciência humana, combinando experiências produzidas pelo cérebro e pelo computador quântico.</p>
+        
+        <strong>Desafios e Perspectivas</strong><br>
+        <p>Apesar da proposta ser promissora, implementar essa ideia ainda está longe de se tornar realidade. Criar uma conexão física entre o cérebro e um computador quântico é altamente invasivo e tecnicamente complexo.</p>
+        
+        <p>Por enquanto, a pesquisa permanece como uma exploração teórica, levantando questões intrigantes sobre a natureza da consciência e suas possíveis conexões com a física quântica.</p>
+        
+        <strong>O Futuro da Ciência da Consciência</strong><br>
+        <p>Embora ainda distante de comprovações práticas, o experimento reflete o interesse crescente em entender os limites da consciência humana. Se bem-sucedido, pode abrir novas fronteiras na neurociência, na física e até na filosofia.</p>
+        
+        <p>Enquanto isso, a pergunta “como funciona a consciência humana?” segue sem resposta definitiva, mantendo o tema entre os grandes mistérios da ciência.</p>
+    </div>
+</div>
+
+
+  <!-- Modal 8 -->
+  <div id="modal8" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Apple Encerra Produção do Vision Pro Após Baixas Vendas</h2>
+        <img src="https://img.odcdn.com.br/wp-content/uploads/2024/06/vision-pro-1024x640.jpg" alt="Imagem representativa do Vision Pro da Apple">
+        
+        <p>A Apple decidiu encerrar a produção do Vision Pro, seus óculos de realidade virtual e mista, devido às vendas muito abaixo do esperado desde o lançamento no início de 2024. Segundo informações do site MacRumors, a gigante da tecnologia já havia reduzido significativamente a fabricação dos dispositivos, acumulando estoques cheios de produtos não vendidos.</p>
+        
+        <p>O Vision Pro, que chegou ao mercado com preço inicial de US$ 3.499 (aproximadamente R$ 17 mil), apresentou barreiras para sua popularização, especialmente devido ao alto custo.</p>
+        
+        <strong>Situação Atual e Próximos Passos</strong><br>
+        <p>• A montagem do Vision Pro, realizada pela Luxshare, foi reduzida para cerca de mil unidades por dia, menos da metade da capacidade inicial.</p>
+        <p>• A produção, inicialmente programada para encerrar no final de 2024, deve suprir toda a demanda de 2025 apenas com os dispositivos já fabricados.</p>
+        <p>• O projeto de uma segunda geração do Vision Pro foi cancelado.</p>
+        
+        <p>Como alternativa, a Apple planeja lançar uma versão mais acessível do dispositivo entre o final de 2025 e o início de 2026. Este modelo pode reutilizar peças estocadas e terá especificações mais modestas, como um processador menos potente e materiais mais baratos. O preço esperado é de US$ 2 mil (cerca de R$ 12,3 mil).</p>
+        
+        <strong>Por Que o Vision Pro Não Emplacou?</strong><br>
+        <p>Especialistas apontam que o Vision Pro não enfrentou problemas relacionados à qualidade. Pelo contrário, o dispositivo se destacou por recursos avançados, como:</p>
+        
+        <p>• <strong>Sistema visionOS:</strong> Compatível com centenas de aplicativos.</p>
+        <p>• <strong>Dois chips principais:</strong> M2, para o sistema operacional, e R1, para processamento de imagens.</p>
+        <p>• <strong>Design tecnológico:</strong> Seis microfones e 12 câmeras capazes de gravar vídeos e fotos em 3D.</p>
+        
+        <p>Porém, o alto custo tornou o Vision Pro inacessível ao público médio, limitando sua adoção global.</p>
+        
+        <strong>O Futuro do Vision Pro e da Realidade Mista na Apple</strong><br>
+        <p>Embora a Apple não tenha se pronunciado oficialmente, os analistas não estão otimistas com a estratégia de lançar uma versão mais barata. O Vision Pro destaca os desafios do mercado de realidade virtual e mista, onde a combinação de inovação tecnológica e preços competitivos continua sendo o maior obstáculo para a popularização.</p>
+    </div>
+</div>
+
+
+  <!-- Modal 9 -->
+  <div id="modal9" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Meta Planeja Inundar Instagram e Facebook com Perfis de IA</h2>
+        <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/instagram-IA-1920x1080.webp" alt="Imagem representativa de perfis de IA no Instagram e Facebook">
+        
+        <p>A Meta planeja introduzir perfis de inteligência artificial (IA) em massa no Instagram e Facebook nos próximos anos. Esses "usuários de IA" terão fotos, biografias, e poderão gerar e compartilhar conteúdo na plataforma, convivendo lado a lado com contas humanas.</p>
+        
+        <p>Segundo Connor Hayes, vice-presidente de produto para IA generativa da Meta, a meta da empresa é tornar suas redes sociais “mais divertidas e envolventes”. A iniciativa já começou: desde julho de 2024, usuários dos Estados Unidos podem criar personagens de IA, embora a maioria desses perfis permaneça privada.</p>
+        
+        <strong>IA para Criadores de Conteúdo</strong><br>
+        <p>A Meta busca usar a IA generativa para aumentar o engajamento e fornecer novas ferramentas aos criadores de conteúdo. Entre as inovações, destacam-se:</p>
+        
+        <p>• <strong>Assistente de IA:</strong> Capaz de responder perguntas dos usuários.</p>
+        <p>• <strong>Geração de Vídeos por Texto:</strong> Planejado para 2025, este recurso permitirá criar vídeos a partir de comandos textuais.</p>
+        <p>• <strong>Perfis de IA Personalizados:</strong> Usados para interação e produção de conteúdo criativo.</p>
+        
+        <p>A estratégia é uma resposta à crescente competição com outras plataformas, como TikTok e Snapchat, que já implementaram tecnologias semelhantes.</p>
+        
+        <strong>Riscos e Controvérsias</strong><br>
+        <p>Apesar do potencial criativo, especialistas alertam para os riscos envolvidos:</p>
+        
+        <p>• <strong>Desinformação:</strong> Perfis de IA poderiam ser usados para espalhar conteúdo falso. Becky Owen, ex-chefe de inovações para criadores da Meta, destacou que a empresa exige que conteúdos gerados por IA sejam rotulados para evitar problemas.</p>
+        <p>• <strong>Conteúdo de Baixa Qualidade:</strong> O aumento de material artificial pode prejudicar o alcance de criadores humanos, gerando desconfiança entre usuários.</p>
+        <p>• <strong>Ética e Privacidade:</strong> A presença de perfis artificiais pode levantar dúvidas sobre transparência e a autenticidade das interações.</p>
+        
+        <strong>O Futuro das Redes Sociais com IA</strong><br>
+        <p>Com centenas de milhares de perfis de IA já criados, a Meta está posicionando suas plataformas na vanguarda da interação com inteligência artificial. No entanto, o impacto da introdução massiva de "usuários artificiais" ainda será amplamente debatido, tanto por seus benefícios criativos quanto pelos desafios éticos que podem surgir.</p>
+    </div>
+</div>
+
+
+  <!-- Modal 10 -->
+  <div id="modal10" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Tesla Enfrenta Primeira Queda nas Vendas e Encara Desafios em 2024</h2>
+        <img src="https://img.odcdn.com.br/wp-content/uploads/2024/07/shutterstock_2275471993-1920x1080.webp" alt="Imagem representativa da Tesla e seus desafios em 2024">
+        
+        <p>A Tesla, referência global em veículos elétricos, registrou uma queda inédita de 1% nas vendas em 2024 em comparação com 2023. Apesar de um quarto trimestre recorde com 495.570 veículos entregues, a marca ficou abaixo das expectativas de Wall Street, que previa 504.800 unidades.</p>
+        
+        <p>A notícia resultou em uma queda de 5% no valor das ações da empresa, destacando os desafios enfrentados pela montadora liderada por Elon Musk.</p>
+        
+        <strong>Fatores que Impactaram a Tesla em 2024</strong><br>
+        <p>• <strong>Envelhecimento dos Modelos:</strong> A demanda por veículos como o Model S e Model X caiu, evidenciando a necessidade de novos produtos para atrair consumidores.</p>
+        <p>• <strong>Aumento da Concorrência:</strong> Grandes fabricantes tradicionais e startups, especialmente da China, intensificaram a disputa no mercado de elétricos. A BYD, por exemplo, continua ganhando relevância global.</p>
+        <p>• <strong>Redução de Incentivos:</strong> A possível redução de créditos fiscais de US$ 7.500 nos EUA, com o governo de Donald Trump, pode afetar a acessibilidade dos carros elétricos.</p>
+        <p>• <strong>Dependência do Mercado Chinês:</strong> A China, um dos mercados mais importantes da Tesla, tornou-se ainda mais desafiadora devido à concorrência local e às políticas econômicas.</p>
+        
+        <strong>Impacto do Cybertruck e Novas Estratégias</strong><br>
+        <p>Nem mesmo o lançamento do aguardado Cybertruck, no final de 2024, foi suficiente para reverter a desaceleração nas vendas. O modelo, que gerou grande expectativa, enfrenta desafios relacionados à produção e competitividade.</p>
+        
+        <p>Para 2025, a Tesla estuda lançar um modelo mais acessível e prevê a introdução do táxi autônomo Cybercab em 2026. No entanto, analistas destacam que o sucesso desses projetos dependerá de investimentos estratégicos e ajustes para atender à demanda.</p>
+        
+        <strong>A Relação com a Política dos EUA</strong><br>
+        <p>A interação de Elon Musk com o novo presidente dos EUA, Donald Trump, será decisiva para o futuro da Tesla. Mudanças na política industrial, incluindo subsídios e regulações, podem influenciar diretamente o desempenho da empresa no setor de veículos elétricos.</p>
+        
+        <p>Diante desses desafios, a Tesla enfrenta um momento de transformação, com o mercado de carros elétricos cada vez mais competitivo. O próximo ano será crucial para que a empresa recupere seu ritmo de crescimento e reafirme sua posição de liderança no setor.</p>
+    </div>
+</div>
+
+
+  <!-- Modal 11 -->
+  <div id="modal11" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>2025 Marca o Surgimento da Geração Beta: Um Novo Capítulo Social</h2>
+        <img src="https://img.odcdn.com.br/wp-content/uploads/2024/11/pai-segurando-bebe-1920x1080.webp" alt="Imagem representativa da Geração Beta">
+        
+        <p>A partir de 1º de janeiro de 2025, os bebês que nascerem serão considerados parte da Geração Beta, segundo o demógrafo Mark McCrindle. Esses filhos de millenials e membros mais velhos da Geração Z terão a particularidade de serem os primeiros a atingir o século 22, vivendo em um mundo marcado por avanços tecnológicos e desafios ambientais.</p>
+        
+        <strong>Características da Geração Beta</strong><br>
+        <p>De acordo com McCrindle, a Geração Beta, que se estenderá de 2025 a 2039, terá como principais características:</p>
+        <p>• <strong>Integração Tecnológica Completa:</strong> Para eles, tecnologias como inteligência artificial e automação serão parte do cotidiano.</p>
+        <p>• <strong>Sustentabilidade como Necessidade:</strong> Diante das mudanças climáticas e da urbanização acelerada, os Betas terão que incorporar práticas sustentáveis em todas as esferas de suas vidas.</p>
+        <p>• <strong>Educação Engajada:</strong> Com pais mais conscientes ambientalmente, a geração deve receber uma educação voltada para soluções globais e colaborativas.</p>
+        <p>• <strong>Menos Tempo de Tela:</strong> Diferentemente das gerações anteriores, espera-se que os pais dos Betas limitem a exposição às redes sociais e ao uso excessivo de dispositivos.</p>
+        
+        <strong>Comparações com Gerações Anteriores</strong><br>
+        <p><strong>Predecessores:</strong></p>
+        <p>• <strong>Geração Alfa (2010–2024):</strong> Primeira geração a crescer com dispositivos móveis e tecnologia digital integrada.</p>
+        <p>• <strong>Geração Z (1996–2009):</strong> Marcada pela familiaridade com redes sociais e cultura digital.</p>
+        
+        <p><strong>Sucessores:</strong></p>
+        <p>A geração seguinte, os Gamas, nascerá entre 2040 e 2054, mantendo a sequência do alfabeto grego para simbolizar o início de uma era completamente moldada por mudanças tecnológicas e ambientais.</p>
+        
+        <strong>Por que “Beta”?</strong><br>
+        <p>O uso do alfabeto grego indica o início de uma era de gerações moldadas por um mundo radicalmente diferente. "Os Betas e Alphas são as primeiras gerações criadas em uma realidade de integração tecnológica completa", explicou McCrindle.</p>
+        
+        <strong>Impacto Global e Expectativas</strong><br>
+        <p>Até 2035, a Geração Beta deverá representar 16% da população mundial e 19% da força de trabalho global. Mais globalizada e focada em comunidade, essa geração promete enfrentar os desafios climáticos e tecnológicos com inovação e resiliência, moldando o futuro de uma maneira sem precedentes.</p>
+    </div>
+</div>
+
+
+  <!-- Modal 12 -->
+  <div id="modal12" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>As 5 Inovações de IA Que Redefinirão o Mercado em 2025</h2>
+        <img src="https://itforum.com.br/wp-content/uploads/2024/05/inteligencia-artificial-ia.jpg" alt="Imagem representativa das inovações de IA no mercado em 2025">
+        
+        <p>O avanço da inteligência artificial (IA) continua a transformar o cenário corporativo, prometendo mudanças significativas em 2025. A tecnologia será uma peça-chave para empresas que buscam liderança no mercado, moldando estratégias, operações e resultados. André Quintanilha, cofundador da startup anglo-brasileira Palqee, destacou cinco tendências que devem marcar o próximo ano.</p>
+        
+        <strong>1. Estratégias de IA: Um Diferencial Competitivo</strong><br>
+        <p>Empresas que equilibrarem inovações incrementais, projetos ousados e uso estratégico de IA terão vantagem. O diferencial estará na integração da IA com dados únicos e conhecimento institucional, garantindo transparência e confiabilidade nos resultados.</p>
+        
+        <strong>2. IA Ética Será Essencial</strong><br>
+        <p>A adoção de frameworks éticos para governança de IA será a nova norma. Com foco em evitar vieses, alucinações e uso indevido de dados, empresas líderes investirão em sistemas que inspirem confiança e estejam em conformidade com regulamentações em evolução.</p>
+        
+        <strong>3. Segurança Reforçada com IA</strong><br>
+        <p>A IA será vital para proteger sistemas e combater ameaças como fraudes e deepfakes. Instituições financeiras, hospitais e empresas de mídia serão pioneiras no uso de IA para defesa, mas o avanço de ataques cibernéticos mais sofisticados exigirá estratégias proativas de segurança.</p>
+        
+        <strong>4. IA Responsável e ROI</strong><br>
+        <p>Abordagens sistemáticas e transparentes para monitoramento da IA serão fundamentais para garantir retorno sobre o investimento (ROI). Empresas líderes implementarão práticas de governança robustas antes mesmo de regulamentações claras, assegurando resultados confiáveis e sustentáveis.</p>
+        
+        <strong>5. Agentes de IA Simplificarão Tarefas</strong><br>
+        <p>A popularidade dos agentes de IA aumentará, com destaque para sua capacidade de gerenciar fluxos de trabalho complexos, automatizar processos e melhorar a produtividade. Esse crescimento será impulsionado por startups inovadoras e grandes empresas que já adotaram frameworks éticos.</p>
+        
+        <strong>2025: O Ano da Consolidação da IA nos Negócios</strong><br>
+        <p>As previsões destacam que a IA não será apenas uma ferramenta, mas o alicerce para transformar negócios. Desde segurança até automação de tarefas, as organizações que aliarem visão estratégica com governança sólida estarão prontas para aproveitar as oportunidades da revolução tecnológica.</p>
+        
+        <p>O diferencial não estará apenas na tecnologia, mas em sua aplicação e integração eficaz no dia a dia corporativo. 2025 promete ser um marco na redefinição de mercados e na forma como as empresas operam.</p>
+    </div>
+</div>
+
+
+  <!-- Modal 13 -->
+  <div id="modal13" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>O Que Stephen Hawking Previu para 2025?</h2>
+        <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/stephen-hawking-1-1920x1080.webp" alt="Imagem representativa das previsões de Stephen Hawking para 2025">
+        
+        <p>Em 1995, o renomado físico Stephen Hawking participou do programa Tomorrow’s World da BBC, onde apresentou previsões sobre como seria o mundo 30 anos depois. Agora que chegamos a 2025, algumas dessas ideias começam a ser analisadas.</p>
+        
+        <strong>Previsões para o Espaço</strong><br>
+        <p><strong>Mineração Espacial:</strong><br>
+        Hawking previa que a mineração de asteroides seria uma indústria lucrativa, com empresas privadas extraindo metais preciosos no espaço. Embora a mineração espacial ainda não seja realidade, avanços significativos indicam que isso pode mudar nos próximos anos, com startups e agências espaciais explorando tecnologias para tornar essa atividade viável.</p>
+        
+        <p><strong>Problemas com Lixo Espacial:</strong><br>
+        Hawking também alertou sobre o acúmulo de lixo espacial, prevendo que seria necessário desenvolver tecnologias para lidar com esse problema. Ele mencionou um gel de espuma que desaceleraria fragmentos perigosos. Embora essa invenção específica não tenha se materializado, o lixo espacial de fato se tornou uma grande ameaça, exigindo soluções emergentes, como redes robóticas e lasers para remoção de detritos.</p>
+        
+        <strong>Robôs Cirurgiões e Cirurgias à Distância</strong><br>
+        <p>Hawking previu que avanços tecnológicos permitiriam cirurgias realizadas à distância, usando robôs e equipamentos como luvas espaciais para operar hologramas de pacientes.</p>
+        
+        <p>Embora cirurgias holográficas ainda sejam ficção, robôs cirúrgicos já são amplamente usados em hospitais ao redor do mundo. Esses dispositivos oferecem precisão avançada e, em alguns casos, podem ser controlados remotamente, cumprindo parte da visão futurista do cientista.</p>
+        
+        <strong>Chips para Serviços Bancários</strong><br>
+        <p>Outra previsão envolvia o uso de chips embutidos no corpo humano para facilitar serviços bancários. Embora essa tecnologia exista, ela ainda é pouco popular. Por outro lado, tecnologias de autenticação, como reconhecimento facial e leitura de impressões digitais, tornaram-se práticas comuns nos sistemas bancários.</p>
+        
+        <strong>Hawking e o Futuro da Humanidade</strong><br>
+        <p>Stephen Hawking demonstrou uma visão impressionante sobre os desafios e avanços tecnológicos que moldariam o futuro. Suas previsões destacam como a humanidade precisa equilibrar inovação com soluções para os problemas que surgem nesse processo.</p>
+        
+        <p>Com algumas ideias já se concretizando e outras ainda no horizonte, suas reflexões continuam sendo uma inspiração para cientistas e visionários em todo o mundo.</p>
+    </div>
+</div>
+
+
+  <!-- Rodapé -->
+  <footer>
+    <p>&copy; 2024 - 2025</p>
+  </footer>
+
+  <!-- Scripts para Modais -->
+  <script>
+    // Seleciona todos os cartões, modais e botões de fechamento
+    const cards = document.querySelectorAll('.card');
+    const modals = document.querySelectorAll('.modal');
+    const closes = document.querySelectorAll('.close');
+
+    // Verifica se a quantidade de cartões e modais corresponde
+    if (cards.length !== modals.length) {
+      console.warn("O número de cartões não corresponde ao número de modais. Verifique seu HTML.");
+    }
+
+    // Adiciona evento de clique aos cartões para abrir o modal correspondente
+    cards.forEach((card, index) => {
+      card.addEventListener('click', () => {
+        if (modals[index]) {
+          modals[index].style.display = 'block'; // Exibe o modal correspondente
+        } else {
+          console.error(`Nenhum modal encontrado para o card com índice ${index}. Verifique o HTML.`);
+        }
+      });
+    });
+
+    // Adiciona evento de clique aos botões de fechamento para fechar o modal correspondente
+    closes.forEach((close, index) => {
+      close.addEventListener('click', () => {
+        if (modals[index]) {
+          modals[index].style.display = 'none'; // Esconde o modal correspondente
+        } else {
+          console.error(`Nenhum modal encontrado para o botão de fechamento com índice ${index}. Verifique o HTML.`);
+        }
+      });
+    });
+
+    // Adiciona funcionalidade para fechar o modal ao clicar fora dele
+    window.onclick = function (event) {
+      modals.forEach((modal) => {
+        if (event.target === modal) {
+          modal.style.display = 'none'; // Esconde o modal se o clique for fora do conteúdo
+        }
+      });
+    };
+
+    // Adiciona acessibilidade: fecha o modal ao pressionar a tecla ESC
+    window.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') { // Detecta a tecla ESC
+        modals.forEach((modal) => {
+          modal.style.display = 'none'; // Esconde todos os modais abertos
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
